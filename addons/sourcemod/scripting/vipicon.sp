@@ -16,6 +16,7 @@ ConVar gc_sIconPath;
 int g_iIcon[MAXPLAYERS +1] = {-1, ...};
 
 char g_sIconPath[256];
+char g_sAdmflag[64];
 
 public Plugin myinfo = {
 	name = "VIP Icon",
@@ -29,7 +30,7 @@ public void OnPluginStart() {
 	AutoExecConfig_SetFile("vipicon"); // What's the configs name and location?
 	AutoExecConfig_SetCreateFile(true); // Create config if it does not exist
 	
-	AutoExecConfig_CreateConVar("sm_vipicon_version", PLUGIN_VERSION, "Current version running of viptag", FCVAR_DONTRECORD);
+	AutoExecConfig_CreateConVar("sm_vipicon_version", PLUGIN_VERSION, "Current version running of vip-icon", FCVAR_DONTRECORD);
 	gc_sVipFlag = AutoExecConfig_CreateConVar("sm_vipicon_flag", "a", "The flag needed for getting the VIP-icon.", FCVAR_NOTIFY);
 	gc_sIconPath = AutoExecConfig_CreateConVar("sm_vipicon_path", "decals/vipicon/vip", "The path and filename for the icon", FCVAR_NOTIFY);
 	
@@ -38,18 +39,18 @@ public void OnPluginStart() {
 	
 	HookEvent("player_spawn", OnPlayerSpawn, EventHookMode_Pre);
 	
+	// Retrieve the path for the icon
 	GetConVarString(gc_sIconPath, g_sIconPath, sizeof(g_sIconPath));
+	// Retrieve the admin flag required for the icon
+	GetConVarString(gc_sVipFlag, g_sAdmflag, sizeof(g_sAdmflag));
 }
 
 public void OnPlayerSpawn(Event event, const char[] name, bool dontBroadcast) {
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
 	
-	char admflag[64];
-	GetConVarString(gc_sVipFlag, admflag, sizeof(admflag));
-	
 	if(IsValidClient(client)) {
-		if((GetUserFlagBits(client) & ReadFlagString(admflag) == ReadFlagString(admflag))) { // Make sure the user has the correct flag(s) for the tag
-			CreateIcon(client); // Sets the tag on top of the client
+		if((GetUserFlagBits(client) & ReadFlagString(g_sAdmflag) == ReadFlagString(g_sAdmflag))) { // Make sure the user has the correct flag(s) for the icon
+			CreateIcon(client); // Sets the icon on top of the client
 		}
 	}
 }
