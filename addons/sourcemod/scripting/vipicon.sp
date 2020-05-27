@@ -2,7 +2,7 @@
 #pragma newdecls required
 
 #define PLUGIN_AUTHOR "Hypr"
-#define PLUGIN_VERSION "1.1"
+#define PLUGIN_VERSION "1.2"
 
 #include <sourcemod>
 #include <sdktools>
@@ -43,6 +43,19 @@ public void OnPluginStart() {
 	GetConVarString(gc_sIconPath, g_sIconPath, sizeof(g_sIconPath));
 	// Retrieve the admin flag required for the icon
 	GetConVarString(gc_sVipFlag, g_sAdmflag, sizeof(g_sAdmflag));
+}
+
+public void OnMapStart() {
+	// Add files to download
+	char vmtBuffer[256];
+	char vtfBuffer[256];
+	Format(vmtBuffer, sizeof(vmtBuffer), "materials/%s.vmt", g_sIconPath);
+	Format(vtfBuffer, sizeof(vtfBuffer), "materials/%s.vtf", g_sIconPath);
+	
+	AddFileToDownloadsTable(vmtBuffer);
+	AddFileToDownloadsTable(vtfBuffer);
+	
+	PrecacheDecal(vtfBuffer);
 }
 
 public void OnPlayerSpawn(Event event, const char[] name, bool dontBroadcast) {
