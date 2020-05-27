@@ -14,11 +14,11 @@ stock bool IsValidClient(int client, bool bAllowBots = false, bool bAllowDead = 
 }
 
 /**
-* Downloads and precaches models/icons
+* Downloads and precaches material files (icons..)
 *
-* @param path				Path to file
+* @param path				Path to file in /materials/
 */
-stock void PrecacheModelAnyDownload(char[] path) {
+stock void PrecacheMaterialAnyDownload(char[] path) {
 	if (strlen(path) == 0)
 		return;
 
@@ -29,4 +29,19 @@ stock void PrecacheModelAnyDownload(char[] path) {
 	Format(sBuffer, sizeof(sBuffer), "materials/%s.vtf", path);
 	AddFileToDownloadsTable(sBuffer);
 	PrecacheModel(sBuffer, true);
+}
+
+/**
+* Downloads and precaches sounds
+*
+* @param path				Path to file in /materials/
+*/
+stock void PrecacheSoundAnyDownload(char[] path) {
+	if (strlen(path) == 0)
+		return;
+
+	char sBuffer[256];
+	PrecacheSoundAny(path);
+	Format(sBuffer, sizeof(sBuffer), "sound/%s", path);
+	AddFileToDownloadsTable(sBuffer);
 }
