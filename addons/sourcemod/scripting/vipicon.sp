@@ -55,7 +55,7 @@ public void OnMapStart() {
 	AddFileToDownloadsTable(vmtBuffer);
 	AddFileToDownloadsTable(vtfBuffer);
 	
-	PrecacheDecal(vtfBuffer);
+	PrecacheDecal(vtfBuffer, true);
 }
 
 public void OnPlayerSpawn(Event event, const char[] name, bool dontBroadcast) {
