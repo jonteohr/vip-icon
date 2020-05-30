@@ -2,7 +2,7 @@
 #pragma newdecls required
 
 #define PLUGIN_AUTHOR "Hypr"
-#define PLUGIN_VERSION "1.2.4"
+#define PLUGIN_VERSION "1.2.5"
 
 #include <sourcemod>
 #include <sdktools>
@@ -47,13 +47,7 @@ public void OnPluginStart() {
 
 public void OnMapStart() {
 	// Add files to download
-	char vmtBuffer[256];
-	char vtfBuffer[256];
-	Format(vmtBuffer, sizeof(vmtBuffer), "materials/%s.vmt", g_sIconPath);
-	Format(vtfBuffer, sizeof(vtfBuffer), "materials/%s.vtf", g_sIconPath);
-	
-	PrecacheMaterialAnyDownload(vmtBuffer);
-	PrecacheMaterialAnyDownload(vtfBuffer);
+	PrecacheMaterialAnyDownload(g_sIconPath);
 }
 
 public void OnPlayerSpawn(Event event, const char[] name, bool dontBroadcast) {
